@@ -1,4 +1,4 @@
 imx6
 ====
 
-Packages, kernel, u-boot, rootfs for the i.MX6 boards
+u-boot for the 3DR i.mx6 boards
