@@ -50,6 +50,9 @@
 //#define CONFIG_SPLASH_SCREEN
 //#define CONFIG_MXC_EPDC
 
+/*LDO BYPASS removal*/
+#undef CONFIG_LDO_BYPASS_CHECK
+
 /*Ethernet removal*/
 #undef CONFIG_CMD_PING
 #undef CONFIG_CMD_DHCP
@@ -69,7 +72,6 @@
 #undef CONFIG_EXTRA_ENV_SETTINGS
 #define CONFIG_EXTRA_ENV_SETTINGS \
         CONFIG_MFG_ENV_SETTINGS \
-        "script=boot.scr\0" \
         "uimage=uImage\0" \
         "fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" \
         "fdt_addr=0x18000000\0" \
@@ -87,7 +89,7 @@
         "mmcargs=setenv bootargs console=${console},${baudrate} ${smp} " \
                 "root=${mmcroot} video=mxcfb0:dev=hdmi,1280x720M@60\0" \
         "loadbootscript=" \
-                "fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${script};\0" \
+                "fatload mmc ${mmcdev}:${mmcpart} ${loadaddr};\0" \
         "bootscript=echo Running bootscript from mmc ...; " \
                 "source\0" \
         "loaduimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${uimage}\0" \
