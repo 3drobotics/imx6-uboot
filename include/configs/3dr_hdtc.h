@@ -80,6 +80,7 @@
         "console=" CONFIG_CONSOLE_DEV "\0" \
         "fdt_high=0xffffffff\0"   \
         "initrd_high=0xffffffff\0" \
+        "bootdelay=0\0" \
         CONFIG_MMC_DEV_SET \
         "\0" \
 	"panel=HDMI\0" \
