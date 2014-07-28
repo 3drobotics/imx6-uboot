@@ -88,7 +88,7 @@
         "mmcroot=" CONFIG_MMCROOT " rootwait rw\0" \
         "smp=" CONFIG_SYS_NOSMP "\0"\
         "mmcargs=setenv bootargs console=${console},${baudrate} ${smp} " \
-                "root=${mmcroot} video=mxcfb0:dev=hdmi,1280x720M@60\0" \
+                "root=${mmcroot} video=mxcfb0:dev=hdmi,1280x720M@60 consoleblank=0\0" \
         "loadbootscript=" \
                 "fatload mmc ${mmcdev}:${mmcpart} ${loadaddr};\0" \
         "bootscript=echo Running bootscript from mmc ...; " \
