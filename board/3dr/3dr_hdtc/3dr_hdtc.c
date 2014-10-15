@@ -415,6 +415,10 @@ int board_early_init_f(void)
 	setup_display();
 #endif
 
+	//turn off the USER led
+	gpio_direction_output(IMX_GPIO_NR(1, 2),1);
+	gpio_set_value(IMX_GPIO_NR(1,2),0);
+
 	return 0;
 }
 
