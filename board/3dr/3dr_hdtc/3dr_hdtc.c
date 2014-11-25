@@ -419,6 +419,20 @@ int board_early_init_f(void)
 	gpio_direction_output(IMX_GPIO_NR(1, 2),1);
 	gpio_set_value(IMX_GPIO_NR(1,2),0);
 
+#if IMX6_3DR_TYPE == ARTOO	
+	//Turn on the STM32 and i.MX6 POWER-ON pins
+        gpio_direction_output(IMX_GPIO_NR(1, 19),1);
+	gpio_set_value(IMX_GPIO_NR(1,19),1);
+
+        gpio_direction_output(IMX_GPIO_NR(1, 21),1);
+	gpio_set_value(IMX_GPIO_NR(1,21),1);
+
+	//Let the boot and reset pins float high
+        gpio_direction_input(IMX_GPIO_NR(2,14));
+        gpio_direction_input(IMX_GPIO_NR(2,13));
+
+#endif
+
 	return 0;
 }
 
@@ -452,7 +466,7 @@ int board_late_init(void)
 	board_late_mmc_env_init();
 #endif
 
-	return 0;
+	return ret;
 }
 
 #ifdef CONFIG_FASTBOOT
