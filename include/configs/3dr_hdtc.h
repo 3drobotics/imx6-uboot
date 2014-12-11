@@ -71,7 +71,12 @@
 //Redo the environment variables
 #undef CONFIG_EXTRA_ENV_SETTINGS
 #define CONFIG_EXTRA_ENV_SETTINGS \
-        CONFIG_MFG_ENV_SETTINGS \
+        "fuseread=fuse read 0 5; fuse read 0 6;\0"\
+        "fuseprog=fuse prog -y 0 5 0x00003040; fuse prog -y 0 6 0x00000010;\0"\
+        "fusesense=fuse sense 0 5; fuse sense 0 6;\0"\
+        "initrd_addr=0x12C00000\0" \
+        "initrd_high=0xffffffff\0" \
+        "bootcmd_mfg=run fuseread; run fuseprog; run fusesense;\0" \
         "uimage=uImage\0" \
         "fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" \
         "fdt_addr=0x18000000\0" \
@@ -83,7 +88,7 @@
         "bootdelay=0\0" \
         CONFIG_MMC_DEV_SET \
         "\0" \
-	"panel=HDMI\0" \
+        "panel=HDMI\0" \
         "mmcpart=" __stringify(CONFIG_SYS_MMC_IMG_LOAD_PART) "\0" \
         "mmcroot=" CONFIG_MMCROOT " rootwait rw\0" \
         "smp=" CONFIG_SYS_NOSMP "\0"\
