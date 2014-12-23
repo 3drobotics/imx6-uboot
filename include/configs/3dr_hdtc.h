@@ -90,7 +90,7 @@
         "\0" \
         "panel=HDMI\0" \
         "mmcpart=" __stringify(CONFIG_SYS_MMC_IMG_LOAD_PART) "\0" \
-        "mmcroot=" CONFIG_MMCROOT " rootwait rw\0" \
+        "mmcroot=" CONFIG_MMCROOT " rootwait ro\0" \
         "smp=" CONFIG_SYS_NOSMP "\0"\
         "mmcargs=setenv bootargs console=${console},${baudrate} ${smp} " \
                 "root=${mmcroot} video=mxcfb0:dev=hdmi,1280x720M@60 consoleblank=0\0" \
@@ -123,8 +123,15 @@
                 "if run loadbootscript; then " \
                 "run bootscript; " \
                 "else " \
-                        "if run loaduimage; then " \
-                                "run mmcboot; " \
+                    "setenv mmcpart 2; "\
+                    "setenv mmcroot /dev/mmcblk0p2 rootwait ro; "\
+                        "if run loaduimage; then "\
+                             "run mmcboot; " \
+                         "else " \
+                             "setenv mmcpart 1; "\
+                             "setenv mmcroot /dev/mmcblk0p1 rootwait ro; "\
+                             "run loaduimage; "\
+                             "run mmcboot; "\
                         "fi; " \
                 "fi; " \
         "fi;"
