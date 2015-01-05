@@ -55,6 +55,14 @@ DECLARE_GLOBAL_DATA_PTR;
 	PAD_CTL_PUS_47K_UP  | PAD_CTL_SPEED_LOW |               \
 	PAD_CTL_DSE_80ohm   | PAD_CTL_SRE_FAST  | PAD_CTL_HYS)
 
+#ifdef CONFIG_IMX6_3DR_TYPE_SOLO
+#define RESETPIN 101
+#define RESETDIR   0
+#else
+#define RESETPIN 157
+#define RESETDIR   1
+#endif
+
 int dram_init(void)
 {
 	gd->ram_size = ((ulong)CONFIG_DDR_MB * 1024 * 1024);
@@ -419,7 +427,7 @@ int board_early_init_f(void)
 	gpio_direction_output(IMX_GPIO_NR(1, 2),1);
 	gpio_set_value(IMX_GPIO_NR(1,2),0);
 
-#if IMX6_3DR_TYPE == ARTOO	
+#ifdef CONFIG_IMX6_3DR_TYPE_ARTOO
     //Turn on the STM32 and i.MX6 POWER-ON pins
     gpio_direction_output(IMX_GPIO_NR(1, 19),1);
     gpio_set_value(IMX_GPIO_NR(1,19),1);
@@ -465,6 +473,20 @@ int board_late_init(void)
 #ifdef CONFIG_ENV_IS_IN_MMC
 	board_late_mmc_env_init();
 #endif
+
+    //Check the safety switch button/GPIO for if we
+    //need to set the factoryReset value
+
+    gpio_direction_input(RESETPIN);
+    if(gpio_get_value(RESETPIN) == RESETDIR)
+    {
+        udelay(3000*1000);
+        if(gpio_get_value(RESETPIN) == RESETDIR)
+        {
+            printf("Factory reset requested\n");
+            setenv("factoryReset", "1");
+        }
+    }
 
 	return ret;
 }

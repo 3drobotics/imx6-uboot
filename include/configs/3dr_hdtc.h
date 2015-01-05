@@ -30,6 +30,7 @@
 
 /* USB Configs */
 #define CONFIG_CMD_USB
+#define CONFIG_CMD_GPIO
 #define CONFIG_USB_EHCI
 #define CONFIG_USB_EHCI_MX6
 #define CONFIG_USB_STORAGE
@@ -82,14 +83,13 @@
         "uimage=uImage\0" \
         "fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" \
         "fdt_addr=0x18000000\0" \
-        "factoryReset=0\0" \
         "boot_fdt=try\0" \
         "ip_dyn=yes\0" \
         "console=" CONFIG_CONSOLE_DEV "\0" \
         "fdt_high=0xffffffff\0"   \
         "initrd_high=0xffffffff\0" \
         "bootdelay=0\0" \
-        "resetGPIO=" CONFIG_RESET_PIN "\0" \
+        "factoryReset=0\0" \
         CONFIG_MMC_DEV_SET \
         "\0" \
         "panel=HDMI\0" \
@@ -97,7 +97,7 @@
         "mmcroot=" CONFIG_MMCROOT " rootwait ro\0" \
         "smp=" CONFIG_SYS_NOSMP "\0"\
         "mmcargs=setenv bootargs console=${console},${baudrate} ${smp} " \
-                "root=${mmcroot} video=mxcfb0:dev=hdmi,1280x720M@60 consoleblank=0 factoryreset=${factoryReset}\0" \
+                "root=${mmcroot} video=mxcfb0:dev=hdmi,1280x720M@60 consoleblank=0 factoryreset=${factoryReset} \0" \
         "loadbootscript=" \
                 "fatload mmc ${mmcdev}:${mmcpart} ${loadaddr};\0" \
         "bootscript=echo Running bootscript from mmc ...; " \
@@ -127,14 +127,6 @@
                 "if run loadbootscript; then " \
                 "run bootscript; " \
                 "else " \
-                    "if gpio input ${resetGPIO} = 0; then" \
-                        "sleep 3" \
-                        "if gpio input ${resetGPIO} = 0; then" \
-                            "setenv factoryReset 1;" \
-                            "run loaduimage; "\
-                            "run mmcboot;" \
-                        "fi; " \
-                    "fi; "\
                     "setenv mmcpart 2; "\
                     "setenv mmcroot /dev/mmcblk0p2 rootwait ro; "\
                         "if run loaduimage; then "\
