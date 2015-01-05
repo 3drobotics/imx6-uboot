@@ -51,6 +51,10 @@ DECLARE_GLOBAL_DATA_PTR;
 	PAD_CTL_PUS_100K_UP | PAD_CTL_SPEED_MED |               \
 	PAD_CTL_DSE_40ohm   | PAD_CTL_SRE_FAST  | PAD_CTL_HYS)
 
+#define GPIO_PAD_CTRL  (PAD_CTL_PKE | PAD_CTL_PUE |            \
+	PAD_CTL_PUS_100K_UP | PAD_CTL_SPEED_MED |               \
+	PAD_CTL_DSE_40ohm   | PAD_CTL_SRE_FAST  | PAD_CTL_HYS)
+
 #define USDHC_PAD_CTRL (PAD_CTL_PKE | PAD_CTL_PUE |            \
 	PAD_CTL_PUS_47K_UP  | PAD_CTL_SPEED_LOW |               \
 	PAD_CTL_DSE_80ohm   | PAD_CTL_SRE_FAST  | PAD_CTL_HYS)
@@ -476,6 +480,10 @@ int board_late_init(void)
 
     //Check the safety switch button/GPIO for if we
     //need to set the factoryReset value
+#ifdef CONFIG_IMX6_3DR_TYPE_ARTOO
+    //Need to make sure the UART pad is used as a GPIO
+	imx_iomux_v3_setup_pad(MX6_PAD_SD4_DAT4__GPIO_2_12 | MUX_PAD_CTRL(GPIO_PAD_CTRL));
+#endif
 
     gpio_direction_input(RESETPIN);
     if(gpio_get_value(RESETPIN) == RESETDIR)
