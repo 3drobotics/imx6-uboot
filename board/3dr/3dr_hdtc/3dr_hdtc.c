@@ -59,8 +59,8 @@ DECLARE_GLOBAL_DATA_PTR;
 #define RESETPIN 101
 #define RESETDIR   0
 #else
-#define RESETPIN 157
-#define RESETDIR   1
+#define RESETPIN  44
+#define RESETDIR   0
 #endif
 
 int dram_init(void)
