@@ -469,7 +469,10 @@ static const struct boot_mode board_boot_modes[] = {
 
 int board_late_init(void)
 {
+    int i;
 	int ret = 0;
+    bool pinHeldInReset;
+
 #ifdef CONFIG_CMD_BMODE
 	add_board_boot_modes(board_boot_modes);
 #endif
@@ -488,8 +491,19 @@ int board_late_init(void)
     gpio_direction_input(RESETPIN);
     if(gpio_get_value(RESETPIN) == RESETDIR)
     {
-        udelay(3000*1000);
-        if(gpio_get_value(RESETPIN) == RESETDIR)
+        pinHeldInReset = true;
+
+        for(i=0; i<3000; ++i) //3000 1ms checks
+        {
+            udelay(1000);
+            if(gpio_get_value(RESETPIN) != RESETDIR)
+            {
+                pinHeldInReset = false;
+                break;
+            }
+        }
+
+        if(pinHeldInReset)
         {
             printf("Factory reset requested\n");
             setenv("factoryReset", "1");
