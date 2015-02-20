@@ -31,7 +31,7 @@
 #include <asm/imx-common/boot_mode.h>
 #include <mmc.h>
 #include <fsl_esdhc.h>
-#include <asm/arch/mxc_hdmi.h>
+//#include <asm/arch/mxc_hdmi.h>
 #include <asm/arch/crm_regs.h>
 #include <linux/fb.h>
 #include <ipu_pixfmt.h>
@@ -250,13 +250,14 @@ static void disable_lvds(struct display_info_t const *dev)
 	writel(reg, &iomux->gpr[2]);
 }
 
-static void do_enable_hdmi(struct display_info_t const *dev)
-{
-	disable_lvds(dev);
-	imx_enable_hdmi_phy();
-}
+//static void do_enable_hdmi(struct display_info_t const *dev)
+//{
+//	disable_lvds(dev);
+//	imx_enable_hdmi_phy();
+//}
 
-static struct display_info_t const displays[] = {{
+static struct display_info_t const displays[] = {
+/*{
 	.bus	= -1,
 	.addr	= 0,
 	.pixfmt	= IPU_PIX_FMT_RGB24,
@@ -276,7 +277,7 @@ static struct display_info_t const displays[] = {{
 		.vsync_len      = 2,
 		.sync           = 0,
 		.vmode          = FB_VMODE_NONINTERLACED
-} }, {
+} },*/ {
 	.bus	= -1,
 	.addr	= 0,
 	.pixfmt	= IPU_PIX_FMT_RGB666,
@@ -351,7 +352,7 @@ static void setup_display(void)
 	int reg;
 
 	enable_ipu_clock();
-	imx_setup_hdmi();
+	//imx_setup_hdmi();
 
 	/* Turn on LDB0, LDB1, IPU,IPU DI0 clocks */
 	reg = __raw_readl(&mxc_ccm->CCGR3);
@@ -389,8 +390,8 @@ static void setup_display(void)
 	writel(reg, &iomux->gpr[2]);
 
 	reg = readl(&iomux->gpr[3]);
-	reg = (reg & ~(IOMUXC_GPR3_LVDS1_MUX_CTL_MASK
-			| IOMUXC_GPR3_HDMI_MUX_CTL_MASK))
+	reg = (reg & ~(IOMUXC_GPR3_LVDS1_MUX_CTL_MASK))
+//			| IOMUXC_GPR3_HDMI_MUX_CTL_MASK))
 	    | (IOMUXC_GPR3_MUX_SRC_IPU1_DI0
 	       << IOMUXC_GPR3_LVDS1_MUX_CTL_OFFSET);
 	writel(reg, &iomux->gpr[3]);

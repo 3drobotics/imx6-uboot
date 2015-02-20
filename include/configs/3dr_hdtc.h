@@ -85,11 +85,10 @@
         "console=" CONFIG_CONSOLE_DEV "\0" \
         "fdt_high=0xffffffff\0"   \
         "initrd_high=0xffffffff\0" \
-        "bootdelay=0\0" \
+        "bootdelay=3\0" \
         "factoryReset=0\0" \
         CONFIG_MMC_DEV_SET \
         "\0" \
-        "panel=HDMI\0" \
         "mmcpart=" __stringify(CONFIG_SYS_MMC_IMG_LOAD_PART) "\0" \
         "mmcroot=" CONFIG_MMCROOT " rootwait ro\0" \
         "smp=" CONFIG_SYS_NOSMP "\0"\
