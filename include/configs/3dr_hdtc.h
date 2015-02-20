@@ -85,7 +85,7 @@
         "console=" CONFIG_CONSOLE_DEV "\0" \
         "fdt_high=0xffffffff\0"   \
         "initrd_high=0xffffffff\0" \
-        "bootdelay=3\0" \
+        "bootdelay=0\0" \
         "factoryReset=0\0" \
         CONFIG_MMC_DEV_SET \
         "\0" \
@@ -93,7 +93,7 @@
         "mmcroot=" CONFIG_MMCROOT " rootwait ro\0" \
         "smp=" CONFIG_SYS_NOSMP "\0"\
         "mmcargs=setenv bootargs console=${console},${baudrate} ${smp} " \
-                "root=${mmcroot} video=mxcfb0:dev=hdmi,1280x720M@60 consoleblank=0 factoryreset=${factoryReset} \0" \
+                "root=${mmcroot} video=mxcfb0:dev=hdmi,1280x720M@60 consoleblank=0 factoryreset=${factoryReset} vt.global_cursor_default=0 \0" \
         "loadbootscript=" \
                 "fatload mmc ${mmcdev}:${mmcpart} ${loadaddr};\0" \
         "bootscript=echo Running bootscript from mmc ...; " \
