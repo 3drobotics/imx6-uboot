@@ -63,7 +63,8 @@ DECLARE_GLOBAL_DATA_PTR;
 #define RESETPIN 101
 #define RESETDIR   0
 #else
-#define RESETPIN  44
+//#define RESETPIN  44
+#define RESETPIN  88
 #define RESETDIR   0
 #endif
 
@@ -486,7 +487,8 @@ int board_late_init(void)
     //need to set the factoryReset value
 #ifdef CONFIG_IMX6_3DR_TYPE_ARTOO
     //Need to make sure the UART pad is used as a GPIO
-	imx_iomux_v3_setup_pad(MX6_PAD_SD4_DAT4__GPIO_2_12 | MUX_PAD_CTRL(GPIO_PAD_CTRL));
+    //imx_iomux_v3_setup_pad(MX6_PAD_SD4_DAT4__GPIO_2_12 | MUX_PAD_CTRL(GPIO_PAD_CTRL));
+    imx_iomux_v3_setup_pad(MX6_PAD_EIM_D24__GPIO_3_24 | MUX_PAD_CTRL(GPIO_PAD_CTRL));
 #endif
 
     gpio_direction_input(RESETPIN);
