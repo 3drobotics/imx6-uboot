@@ -127,12 +127,11 @@
                     "setenv mmcroot /dev/mmcblk0p2 rootwait ro; "\
                         "if run loaduimage; then "\
                              "run mmcboot; " \
-                         "else " \
-                             "setenv mmcpart 1; "\
-                             "setenv mmcroot /dev/mmcblk0p1 rootwait ro; "\
-                             "run loaduimage; "\
-                             "run mmcboot; "\
-                        "fi; " \
+                         "fi; " \
+                         "setenv mmcpart 1; "\
+                         "setenv mmcroot /dev/mmcblk0p1 rootwait ro; "\
+                         "run loaduimage; "\
+                         "run mmcboot; "\
                 "fi; " \
         "fi;"
 
