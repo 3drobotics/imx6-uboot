@@ -83,6 +83,7 @@
         "initrd_high=0xffffffff\0" \
         CONFIG_MFG_ENV_SETTINGS \
         "uimage=uImage\0" \
+        "zimage=zImage\0" \
         "fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" \
         "fdt_addr=0x18000000\0" \
         "boot_fdt=try\0" \
@@ -103,6 +104,7 @@
         "bootscript=echo Running bootscript from mmc ...; " \
                 "source\0" \
         "loaduimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${uimage}\0" \
+        "loadzimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${zimage}\0" \
         "loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
         "mmcboot=echo Booting from mmc ...; " \
                 "run mmcargs; " \
@@ -129,7 +131,7 @@
                 "else " \
                     "setenv mmcpart 2; "\
                     "setenv mmcroot /dev/mmcblk0p2 rootwait ro; "\
-                        "if run loaduimage; then "\
+                        "if run loadzimage; then "\
                              "run mmcboot; " \
                          "fi; " \
                          "setenv mmcpart 1; "\
