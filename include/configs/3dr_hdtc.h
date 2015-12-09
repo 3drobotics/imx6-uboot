@@ -106,7 +106,7 @@
         "loaduimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${uimage}\0" \
         "loadzimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${zimage}\0" \
         "loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${fdt_file}\0" \
-        "mmcboot=echo Booting from mmc ...; " \
+        "mmcuboot=echo Booting from mmc ...; " \
                 "run mmcargs; " \
                 "if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
                         "if run loadfdt; then " \
@@ -121,6 +121,21 @@
                 "else " \
                         "bootm; " \
                 "fi;\0" \
+        "mmczboot=echo Booting from mmc ...; " \
+                "run mmcargs; " \
+                "if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
+                        "if run loadfdt; then " \
+                                "bootz ${loadaddr} - ${fdt_addr}; " \
+                        "else " \
+                                "if test ${boot_fdt} = try; then " \
+                                        "bootz; " \
+                                "else " \
+                                        "echo WARN: Cannot load the DT; " \
+                                "fi; " \
+                        "fi; " \
+                "else " \
+                        "bootz; " \
+                "fi;\0" \
 
 #undef CONFIG_BOOTCOMMAND
 #define CONFIG_BOOTCOMMAND \
@@ -132,12 +147,12 @@
                     "setenv mmcpart 2; "\
                     "setenv mmcroot /dev/mmcblk0p2 rootwait ro; "\
                         "if run loadzimage; then "\
-                             "run mmcboot; " \
+                             "run mmczboot; " \
                          "fi; " \
                          "setenv mmcpart 1; "\
                          "setenv mmcroot /dev/mmcblk0p1 rootwait ro; "\
                          "run loaduimage; "\
-                         "run mmcboot; "\
+                         "run mmcuboot; "\
                 "fi; " \
         "fi;"
 
