@@ -91,7 +91,7 @@
         "console=" CONFIG_CONSOLE_DEV "\0" \
         "fdt_high=0xffffffff\0"   \
         "initrd_high=0xffffffff\0" \
-        "bootdelay=0\0" \
+        "bootdelay=3\0" \
         "factoryReset=0\0" \
         "mmcdev="__stringify(CONFIG_SYS_MMC_ENV_DEV)"\0" \
         "mmcpart=" __stringify(CONFIG_SYS_MMC_IMG_LOAD_PART) "\0" \
