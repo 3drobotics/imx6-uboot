@@ -144,6 +144,12 @@
                 "if run loadbootscript; then " \
                 "run bootscript; " \
                 "else " \
+                    "if test ${factoryReset} -eq 1; then " \
+                         "setenv mmcpart 1; "\
+                         "setenv mmcroot /dev/mmcblk0p1 rootwait ro; "\
+                         "run loaduimage; "\
+                         "run mmcuboot; "\
+                    "fi; " \
                     "setenv mmcpart 2; "\
                     "setenv mmcroot /dev/mmcblk0p2 rootwait ro; "\
                         "if run loadzimage; then "\
